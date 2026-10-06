@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lv.street.arg</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="aviso">Envíos a todo el país | Hasta 30% OFF</div>
+
+  <header>
+    <h1>lv.street.arg</h1>
+    <nav>
+      <a href="#remeras">Remeras</a>
+      <a href="#pantalones">Pantalones</a>
+      <a href="#buzos">Buzos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+    <section class="portada">
+    <h2>LV.STREET.ARG</h2>
+    <p>Ropa hecha con estilo.</p>
+    <a class="bajar" href="#remeras">Ver modelos &#8595;</a>
+  </section>
+
+  <section class="categorias">
+    <a href="#remeras" class="tarjeta">
+      <img src="imagenes/remera-negra.jpg" alt="Remeras">
+      <h3>Remeras</h3>
+    </a>
+    <a href="#pantalones" class="tarjeta">
+      <img src="imagenes/pantalon-negro.jpg" alt="Pantalones">
+      <h3>Pantalones</h3>
+    </a>
+    <a href="#buzos" class="tarjeta">
+      <img src="imagenes/buzo-azul.jpg" alt="Buzos">
+      <h3>Buzos</h3>
+    </a>
+  </section>
+
+  <div id="catalogo"></div>
+
+  <footer id="contacto">
+    <div class="footer-col">
+      <h3>lv.street.arg</h3>
+      <p>Ropa hecha con estilo.</p>
+    </div>
+    <div class="footer-col">
+      <h3>Contacto</h3>
+      <a href="https://wa.me/5493827453109" target="_blank">WhatsApp</a>
+      <a href="https://instagram.com/lv.street.arg" target="_blank">Instagram</a>
+    </div>
+    <div class="footer-col">
+      <h3>Ayuda</h3>
+      <p>Envíos a todo el país</p>
+      <p>Cambios dentro de los 15 días</p>
+    </div>
+  </footer>
+
+  <a class="whatsapp-flotante" href="https://wa.me/5493827453109" target="_blank">WhatsApp</a>
+
+  <script>
+    var WHATSAPP = '5493827453109';
+
+    // Para agregar una prenda: sumá una línea ['Nombre', 'archivo.jpg', precio]
+    var catalogo = [
+      { id: 'remeras', titulo: 'Remeras', productos: [
+        ['Remera Blanca', 'remera-blanca.jpg', 18000],
+        ['Remera Negra', 'remera-negra.jpg', 18000],
+        ['Remeras Estampadas', 'remeras-estampadas.jpg', 20000],
+        ['Oversize Blanca', 'oversize-blanca.jpg', 22000],
+        ['Boxy Fit Blanca', 'boxyfit-blanca.jpg', 22000],
+        ['Boxy Fit Negra', 'boxyfit-negra.jpg', 22000],
+        ['Babytee Blanca', 'babytee-blanca.jpg', 15000],
+        ['Babytee Negra', 'babytee-negra.jpg', 15000],
+        ['Musculosa', 'musculosa.jpg', 14000]
+      ]},
+      { id: 'pantalones', titulo: 'Pantalones', productos: [
+        ['Pantalón Azul', 'pantalon-azul.jpg', 40000],
+        ['Pantalón Rosa', 'pantalon-rosa.jpg', 40000],
+        ['Pantalón Blanco', 'pantalon-blanco.jpg', 40000],
+        ['Pantalón Gris', 'pantalon-gris.jpg', 40000],
+        ['Pantalón Negro', 'pantalon-negro.jpg', 40000],
+        ['Bermudas', 'bermudas.jpg', 30000]
+      ]},
+      { id: 'buzos', titulo: 'Buzos', productos: [
+        ['Buzo Azul', 'buzo-azul.jpg', 35000]
+      ]}
+    ];
+
+    var contenedor = document.getElementById('catalogo');
+
+    catalogo.forEach(function (cat) {
+      var html = `
+        <section class="productos" id="${cat.id}">
+          <h2>${cat.titulo}</h2>
+          <div class="carrusel-wrap">
+            <button class="flecha izq" onclick="mover('${cat.id}', -1)">&#8592;</button>
+            <div class="carrusel" id="car-${cat.id}">`;
+
+      cat.productos.forEach(function (p) {
+        html += `
+              <div class="producto" data-nombre="${p[0]}">
+                <img src="imagenes/${p[1]}" alt="${p[0]}">
+                <h3>${p[0]}</h3>
+                <p class="precio">$${p[2].toLocaleString('es-AR')}</p>
+                <select class="talle">
+                  <option>S</option>
+                  <option>M</option>
+                  <option>L</option>
+                  <option>XL</option>
+                </select>
+                <a class="boton" href="#">Comprar</a>
+              </div>`;
+      });
+
+      html += `
+            </div>
+            <button class="flecha der" onclick="mover('${cat.id}', 1)">&#8594;</button>
+          </div>
+        </section>`;
+
+      contenedor.innerHTML += html;
+    });
+
+    function mover(id, direccion) {
+      document.getElementById('car-' + id).scrollBy({
+        left: direccion * 300,
+        behavior: 'smooth'
+      });
+    }
+
+    contenedor.addEventListener('click', function (e) {
+      var boton = e.target.closest('.boton');
+      if (!boton) return;
+      e.preventDefault();
+      var producto = boton.closest('.producto');
+      var nombre = producto.dataset.nombre;
+      var talle = producto.querySelector('.talle').value;
+      var mensaje = 'Hola, quiero comprar ' + nombre + ' - Talle ' + talle;
+      window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(mensaje), '_blank');
+    });
+  </script>
+</body>
+</html>
